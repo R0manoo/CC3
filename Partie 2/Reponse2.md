@@ -15,6 +15,9 @@ npm install --save express http-errors loglevel morgan
 |http-errors|https://www.npmjs.com/package/http-errors|
 
 **Question 2.2** vérifier que les trois routes fonctionnent.
+
+Tout est ok:
+
 |route|rendu|
 |--|--|
 |/|<img width="340" alt="route_base" src="https://github.com/R0manoo/CC3/assets/109523009/0a01d960-c96e-49d8-9f97-1133694bb2af">|
@@ -24,41 +27,44 @@ npm install --save express http-errors loglevel morgan
 
 **Question 2.3** lister les en-têtes des réponses fournies par Express. Lesquelles sont nouvelles par rapport au serveur HTTP ?
 
-Remplacer la dernière ligne de `server-express.mjs` par les suivantes
-
-```js
-const server = app.listen(port, host);
-
-server.on("listening", () =>
-  console.info(
-    `HTTP listening on http://${server.address().address}:${server.address().port} with mode '${process.env.NODE_ENV}'`,
-  ),
-);
-
-console.info(`File ${import.meta.url} executed.`);
+**LISTE DES NOUVELLES EN-TETES:**
+```
+X-Powered-By: Express 
+Accept-Ranges: bytes 
+Cache-Control: public, max-age=0 
+Last-Modified: Wed, 20 Sep 2023 06:59:14 GMT 
+ETag: W/"557-18ab162c48c" 
+Content-Type: text/html; charset=UTF-8 
+Content-Length: 1367 
 ```
 
 **Question 2.4** quand l'événement `listening` est-il déclenché ?
 
-**Commit/push** dans votre dépot Git.
+L’événement `listening` est déclenché dès que le serveur a réussi sa connexion au port et à l’adresse ip. 
 
 ### Ajout de middlewares
 
-Ici, la route de la page d'accueil charge dynamiquement à chaque requête une ressource statique.
-Ce n'est pas très performant, d'autant plus qu'un _middleware_ Epxress [existe déjà pour ça](http://expressjs.com/en/resources/middleware/serve-static.html).
-
-- créer un sous-dossier `static`
-- déplacer le fichier `index.html` dans le sous-dossier `static`
-- extraire l'élément `<style>` de `index.html` dans un nouveau fichier `style.css` que vous lierez à `index.html` avec `<link rel="stylesheet" href="style.css">`
-- remplacer la route de la page d'accueil par `app.use(express.static("static"));`
-
 **Question 2.5** indiquer quelle est l'option (activée par défaut) qui redirige `/` vers `/index.html` ?
+
+Lorsque l’on utilise : `app.use(express.static("static"));` la route `/` est par défaut configuré sur un fichier qui se nomme `index.html`.
+
+On peut changer ce comportement de la sorte:  
+```js
+app.use(express.static("static",{index:"autreFichier"}))
+```
 
 **Question 2.6** visiter la page d'accueil puis rafraichir (Ctrl+R) et _ensuite_ **forcer** le rafraichissement (Ctrl+Shift+R). Quels sont les codes HTTP sur le fichier `style.css` ? Justifier.
 
-Ajouter la ligne `if (app.get("env") === "development") app.use(morgan("dev"));` au bon endroit dans `server-express.mjs` pour activer le middleware Morgan.
+|Methode de rafraichissement|Code HTTP|
+|--|--|
+|Classique|`304 Not Modified`|
+|Forcé|`200 OK`|
 
-**Commit/push** dans votre dépot Git.
+Le code http `304` indique que lors d'un rafraichissement classique le navigateur utilise le contenu du cache (si possible) pour charger la page.  
+Cependant lors d'un rafrachissement forcé celui-ci efface le contenu du cache de cette page et ainsi le force à charger la version la plus recente de la page expliquant le code http `200`.
+
+
+clears your browser cache for a specific page, which forces it to load the most recent version of that page
 
 ### Rendu avec EJS
 
