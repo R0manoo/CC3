@@ -1,5 +1,3 @@
-# Tutoriel HTTP/Express Node.js
-
 ## Partie 1 : serveur HTTP natif Node.js
 
 ### Installation
