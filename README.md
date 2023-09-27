@@ -19,6 +19,8 @@ Tester les **routes** suivantes :
 - `http://localhost:8000/index.html`
 - `http://localhost:8000/random.html`
 - `http://localhost:8000/`
+- ![beurre](https://github.com/R0manoo/CC3/assets/109523009/feb63cb0-6c6e-43ee-adfe-3de696dd4a26)
+
 - `http://localhost:8000/dont-exist`
 
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
