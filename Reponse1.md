@@ -1,7 +1,4 @@
 ## Partie 1 : serveur HTTP natif Node.js
-
-**Remarque**:
-
 ### Installation
 **Question 1.1** donner la liste des en-têtes de la réponse HTTP du serveur.
 
@@ -21,8 +18,7 @@ Seulement le Content-Type: `Content-Type: application/json`
 
 **Question 1.3** que contient la réponse reçue par le client ?
 
-D’après la fonction `requestListener`, la réponse devrait être une 200 et devrait contenir le contenu du fichier `index.html`. 
-
+D’après la fonction `requestListener`, la réponse devrait être une 200 et devrait contenir le contenu du fichier`index.html`.  
 Cependant à l’exécution le client ne reçoit pas de réponse et la console affiche une erreur. 
 
 **Question 1.4** quelle est l'erreur affichée dans la console ? Retrouver sur <https://nodejs.org/api> le code d'erreur affiché.
