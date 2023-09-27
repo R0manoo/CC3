@@ -25,6 +25,8 @@ Cependant à l’exécution le client ne reçoit pas de réponse et la console a
 
 **Question 1.4** quelle est l'erreur affichée dans la console ? Retrouver sur <https://nodejs.org/api> le code d'erreur affiché.
 
+![err](https://github.com/R0manoo/CC3/assets/109523009/b059c122-3b4e-4854-8408-04867498a9ff)
+
 Le code erreur `ENOENT` a été soulevé par la fonction `fs` d’un module node importé car il n’a pas trouvé le fichier index.html. 
 
 Modifications apportées au Promise.catch: 
