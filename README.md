@@ -1,5 +1,7 @@
 ## Partie 1 : serveur HTTP natif Node.js
 
+**Remarque**:
+
 ### Installation
 **Question 1.1** donner la liste des en-têtes de la réponse HTTP du serveur.
 
@@ -71,7 +73,7 @@ Le script http-prod ne répond pas aux modifications lorsque l’on modifie les 
 
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
 
-| Routes | Codes HTTP reçus |
+| URL | Codes HTTP reçus |
 | --- | --- |
 |`http://localhost:8000/index.html`| 200 |
 |`http://localhost:8000/random.html`| 200 |
