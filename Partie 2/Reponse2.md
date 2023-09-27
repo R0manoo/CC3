@@ -1,8 +1,4 @@
 ## Partie 2 : framework Express
-
-On voit que la gestion manuelle des routes avec un grand `switch` va devenir complexe et laborieuse.
-Les frameworks serveur comme <http://expressjs.com/>, <https://koajs.com/>, <https://www.fastify.io/> ou <https://hapi.dev/> vont s'occuper de cette plomberie et proposer une API pour enregistrer des _handlers_ aux différentes routes de l'application.
-
 ### Création du serveur
 
 Créer le fichier `server-express.mjs` et exécuter la commande suivante :
@@ -10,38 +6,21 @@ Créer le fichier `server-express.mjs` et exécuter la commande suivante :
 ```bash
 npm install --save express http-errors loglevel morgan
 ```
-
 **Question 2.1** donner les URL des documentations de chacun des modules installés par la commande précédente.
-
-Ensuite, sur le modèle des scripts `http-prod` et `http-dev` du fichier `package.json`, créer les scripts `express-prod` et `express-dev`.
-
-Ensuite, ajouter le contenu suivant au fichier `server-express.mjs`
-
-```js
-import express from "express";
-import morgan from "morgan";
-
-const host = "localhost";
-const port = 8000;
-
-const app = express();
-
-app.get(["/", "/index.html"], async function (request, response, next) {
-  response.sendFile("index.html", { root: "./" });
-});
-
-app.get("/random/:nb", async function (request, response, next) {
-  const length = request.params.nb;
-  const contents = Array.from({ length })
-    .map((_) => `<li>${Math.floor(100 * Math.random())}</li>`)
-    .join("\n");
-  return response.send(`<html><ul>${contents}</ul></html>`);
-});
-
-app.listen(port, host);
-```
+|Module|URL|
+|--|--|
+|Express|https://expressjs.com/en/5x/api.html|
+|Morgan|https://expressjs.com/en/resources/middleware/morgan.html|
+|loglevel|https://www.npmjs.com/package/loglevel|
+|http-errors|https://www.npmjs.com/package/http-errors|
 
 **Question 2.2** vérifier que les trois routes fonctionnent.
+|route|rendu|
+|--|--|
+|/|<img width="340" alt="route_base" src="https://github.com/R0manoo/CC3/assets/109523009/0a01d960-c96e-49d8-9f97-1133694bb2af">|
+|/index.html|<img width="340" alt="route_index" src="https://github.com/R0manoo/CC3/assets/109523009/49e0151e-e416-4a1c-a4d1-b2bb54c8dde7">|
+|/random:nb|<img width="340" alt="route_random" src="https://github.com/R0manoo/CC3/assets/109523009/3075ddc2-27b9-4b9c-8a36-bbd2d0b39f19">|
+
 
 **Question 2.3** lister les en-têtes des réponses fournies par Express. Lesquelles sont nouvelles par rapport au serveur HTTP ?
 
