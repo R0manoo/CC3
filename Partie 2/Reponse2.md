@@ -63,97 +63,17 @@ app.use(express.static("static",{index:"autreFichier"}))
 Le code http `304` indique que lors d'un rafraichissement classique le navigateur utilise le contenu du cache (si possible) pour charger la page.  
 Cependant lors d'un rafrachissement forcé celui-ci efface le contenu du cache de cette page et ainsi le force à charger la version la plus recente de la page expliquant le code http `200`.
 
-
-clears your browser cache for a specific page, which forces it to load the most recent version of that page
-
 ### Rendu avec EJS
-
-Le moteur de templating <https://ejs.co/> est l'équivalent de Jinja utilisé pour Python/Flask dans l'écosytème Nodes.js/Express.
-Une [extension VSCode](https://marketplace.visualstudio.com/items?itemName=DigitalBrainstem.javascript-ejs-support) est disponible pour EJS.
-
 On va utiliser le moteur EJS pour améliorer la page `random` générée dynamiquement côté serveur.
-
-1. créer un sous-dossier `views/` et créer un fichier `views/random.ejs` avec le contenu ci-après;
-2. exécuter la commande `npm install --save ejs`;
-3. ajouter la ligne `app.set("view engine", "ejs");` à `server-express.mjs`;
-4. modifier le _handler_ de la route `/random/:nb` avec `response.render("random", {numbers, welcome});` pour appeller le moteur de rendu, où `numbers` est un tableau de nombres aléatoires (comme précédemment) et `welcome` une chaîne de caractères.
-
-#### Contenu de `views/random.ejs`
-
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" />
-    <link rel="stylesheet" href="/style.css" />
-    <title>Tutorial</title>
-  </head>
-
-  <body>
-    <div class="center">
-      <h1><%= welcome %></h1>
-      <% numbers.forEach(element => { %>
-      <code><%= element %></code>
-      <% }) %>
-    </div>
-  </body>
-</html>
-```
-
-**Commit/push** dans votre dépot Git.
-
-### Gestion d'erreurs
-
-On va maintenant vérifier que le paramètre `/random/:nb` est bien un nombre. Si ce n'est pas le cas, il faut retourner une erreur HTTP 400.
-Pour cela, utiliser le module <https://github.com/jshttp/http-errors>
-
-1. ajouter le module `http-errors` avec `npm`
-2. ajouter le `import ... from ...` correspondant dans `server-express.mjs`
-3. dans la toute `/random/:nb`, faites la vérification avec `const length = Number.parseInt(request.params.nb, 10);` puis `Number.isNaN(length)`, si le paramètre, n'est pas un nombre, produire une erreur 400 avec `next(createError(400));`
-
-**Commit/push** dans votre dépot Git.
-
-Avec cette solution, l'erreur n'est pas bien rendue sur le client car elle passe dans le **handler d'erreur par défaut d'Express**. De plus, quand on visite une page qui n'existe pas, par exemple `http://localhost:8000/javascript`, la 404 n'est pas terrible non plus.
-
-Ajouter, _tout à la fin des routes_, juste avant `app.listen(port, host);`, deux nouvaux _handlers_ comme suit :
-
-```js
-app.use((request, response, next) => {
-  concole.debug(`default route handler : ${request.url}`);
-  return next(createError(404));
-});
-
-app.use((error, _request, response, _next) => {
-  concole.debug(`default error handler: ${error}`);
-  const status = error.status ?? 500;
-  const stack = app.get("env") === "development" ? error.stack : "";
-  const result = { code: status, message: error.message, stack };
-  return response.render("error", result);
-});
-```
-
-Ensuite, créer, sur le modèle de `random.ejs`, une vue `error.ejs` dont le corps est comme suit :
-
-```html
-<body>
-  <div class="center">
-    <h1>Error <%= code %></h1>
-    <p><%= message %></p>
-  </div>
-  <% if (stack != null) { %>
-  <pre><%= stack %></pre>
-  <% } %>
-</body>
-```
 
 **Question 2.7** vérifier que l'affichage change bien entre le mode _production_ et le mode _development_.
 
-**Commit/push** dans votre dépot Git.
+On teste l'affichage d'une erreur avec `localhost/8000/toto` qui n'existe pas :
 
-Enfin, chargez le module `loglevel` avec `import logger from "loglevel";` puis fixer un niveau de verbosité avec `logger.setLevel(logger.levels.DEBUG);`.
+|Production|Development|
+|--|--|
+|<img width="480" alt="mode_prod" src="https://github.com/R0manoo/CC3/assets/109523009/e705bc8d-4c92-4b36-a3fc-c2d80397b507">|<img width="480" alt="mode_dev" src="https://github.com/R0manoo/CC3/assets/109523009/95ca6442-7d8b-4858-8e7b-2e0b0a0df4c5">|
 
-Remplacez tous les `console.log()` et variantes par `logger.error()`, `logger.warn()`, `logger.info()`, `logger.debug()` ou `logger.trace()` approprié.
+L'affichage est donc correctement configuré en fonction du mode utilisé.
 
-Modifier le niveau de verbosité, par exemple `logger.setLevel(logger.levels.WARN);` et vérifier l'affichage.
+
