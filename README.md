@@ -79,7 +79,7 @@ Le script http-prod ne répond pas aux modifications lorsque l’on modifie les 
 Maintenant, on veut ajouter une route `/random/:nb` où `:nb` est un paramètre entier avec le nombre d'entiers à générer. Ajouter cette route au `switch` et reprendre la page `random.html` pour générer autant de nombres qu'indiqué dans l'URL.
 
 ```js
-let nb = 1;
+let nb = 1; //initialisation à 1 pour afficher 1 nombre si on n'a pas utilisé le parametre nb au préalable
 async function requestListener(request, response) {
     response.setHeader("Content-Type", "text/html");
     let array = [];
@@ -97,14 +97,14 @@ async function requestListener(request, response) {
             case "random": {
                 response.writeHead(200);
                 nb = request.url.split("/")[2];
-                return response.end(`NB = ${nb}`);
+                return response.end(`NB = ${nb}`); //on notifie l'user de la modif du param nb
             }
             case "random.html": {
                 response.writeHead(200);
                 for (let index = 0; index < nb; index++) {
                     array.push(Math.floor(100 * Math.random()));
                 }
-                array=array.map((n) =>`<li>${n}</li>`).join("\n");
+                array=array.map((n) =>`<li>${n}</li>`).join("\n"); //on join avec un retour chariot pour enlever la "," à l'affichage
                 return response.end(`<html>${array}</html>`);
             }
             default: {
