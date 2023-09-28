@@ -34,7 +34,6 @@ Accept-Ranges: bytes
 Cache-Control: public, max-age=0 
 Last-Modified: Wed, 20 Sep 2023 06:59:14 GMT 
 ETag: W/"557-18ab162c48c" 
-Content-Type: text/html; charset=UTF-8 
 Content-Length: 1367 
 ```
 
