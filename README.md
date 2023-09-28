@@ -73,7 +73,7 @@ Le script http-prod ne répond pas aux modifications lorsque l’on modifie les 
 | --- | --- |
 |`http://localhost:8000/index.html`| 200 |
 |`http://localhost:8000/random.html`| 200 |
-|`http://localhost:8000/`|200|
+|`http://localhost:8000/`|404|
 |`http://localhost:8000/dont-exist`|404|
 
 Maintenant, on veut ajouter une route `/random/:nb` où `:nb` est un paramètre entier avec le nombre d'entiers à générer. Ajouter cette route au `switch` et reprendre la page `random.html` pour générer autant de nombres qu'indiqué dans l'URL.
